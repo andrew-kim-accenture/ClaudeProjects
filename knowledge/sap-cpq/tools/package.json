@@ -1,0 +1,12 @@
+{
+  "name": "sap-cpq-knowledge-crawler",
+  "version": "1.0.0",
+  "description": "Playwright-based crawler for SAP CPQ Help Portal JS-rendered docs",
+  "scripts": {
+    "setup": "npx playwright install chromium",
+    "crawl:portal": "node crawl-portal.js"
+  },
+  "dependencies": {
+    "playwright": "^1.44.0"
+  }
+}

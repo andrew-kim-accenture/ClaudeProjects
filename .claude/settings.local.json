@@ -1,0 +1,17 @@
+{
+  "permissions": {
+    "allow": [
+      "WebSearch",
+      "WebFetch(domain:sdk.airefinery.accenture.com)",
+      "WebFetch(domain:www.accenture.com)",
+      "WebFetch(domain:help.sap.com)",
+      "WebFetch(domain:default-us1-prd-01.cpq.cloud.sap)",
+      "Bash(python3 -c \"import json; d=json.load\\(open\\(''C:/Users/andrew.c.kim/ClaudeProjects/knowledge/sap-cpq/rest-api/swagger.json''\\)\\); print\\(''Paths:'', len\\(d.get\\(''paths'',{}\\)\\)\\); print\\(''Definitions:'', len\\(d.get\\(''definitions'',{}\\)\\)\\); print\\(''Tags:'', [t[''name''] for t in d.get\\(''tags'',[]\\)]\\)\")",
+      "Bash(node:*)",
+      "Skill(update-config)",
+      "Bash(winget install:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)"
+    ]
+  }
+}
