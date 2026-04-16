@@ -240,6 +240,8 @@ Script: `tools/crawl-portal.js` — auto-discovers nav links, resumes on re-run.
 | `pending` | Portal home | `https://help.sap.com/docs/SAP_CPQ` | `portal/` (auto-named by crawler) |
 | `pending` | API Guide | `https://help.sap.com/docs/SAP_CPQ/08a7929ad06d4680b4f18cb57bc1a1d3/7be8a894a6dd45f7806f11c86f5b7c11.html` | `portal/` (auto-named by crawler) |
 
+| `failed: page.waitForTimeout: Target page, context or browser has bee` | https://help.sap.com/docs/SAP_CPQ/884885f05e6b4c8082254d4d9d63f19b/a3a3eefa8a944667aae1b13e620443e2.html#related-information | https://help.sap.com/docs/SAP_CPQ/884885f05e6b4c8082254d4d9d63f19b/a3a3eefa8a944667aae1b13e620443e2.html#related-information | portal/884885f05e6b4c8082254d4d9d63f19b-a3a3eefa8a944667aae1b13e620443e2-html.md |
+| `failed: page.waitForTimeout: Target page, context or browser has bee` | https://help.sap.com/docs/SAP_CPQ/884885f05e6b4c8082254d4d9d63f19b/35e2aebd3cbe47f0a103a813ec6796ae.html#data-sent-to-the-destination-environment | https://help.sap.com/docs/SAP_CPQ/884885f05e6b4c8082254d4d9d63f19b/35e2aebd3cbe47f0a103a813ec6796ae.html#data-sent-to-the-destination-environment | portal/884885f05e6b4c8082254d4d9d63f19b-35e2aebd3cbe47f0a103a813ec6796ae-html.md |
 ---
 
 ## Progress Summary
