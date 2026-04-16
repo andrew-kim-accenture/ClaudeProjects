@@ -162,24 +162,30 @@ function pageFilepath(url, title) {
   return path.join(sectionDir, finalSlug + '.md');
 }
 
-/** Completion = any file in portal/{section}/ matches this URL's source. */
-function isCompleted(url) {
-  const guid = guideGuidFromUrl(url);
-  if (!guid) return false;
-  const section = GUID_TO_SECTION[guid];
-  if (!section) return false;
-  const sectionDir = path.join(OUTPUT_DIR, section);
-  if (!fs.existsSync(sectionDir)) return false;
-  // Check by scanning the section dir for a file whose Source: matches
-  // (fast enough since sections have <600 files each)
-  const urlNorm = normalizeUrl(url);
-  for (const f of fs.readdirSync(sectionDir)) {
-    if (!f.endsWith('.md')) continue;
-    const content = fs.readFileSync(path.join(sectionDir, f), 'utf8');
-    const srcLine = content.match(/\*\*Source:\*\*\s+(\S+)/);
-    if (srcLine && normalizeUrl(srcLine[1]) === urlNorm) return true;
+/**
+ * Build an in-memory Set of all source URLs already captured on disk.
+ * Called once at startup so isCompleted() is O(1) thereafter.
+ */
+function buildCompletedIndex() {
+  const index = new Set();
+  for (const section of Object.values(GUID_TO_SECTION)) {
+    const sectionDir = path.join(OUTPUT_DIR, section);
+    if (!fs.existsSync(sectionDir)) continue;
+    for (const f of fs.readdirSync(sectionDir)) {
+      if (!f.endsWith('.md')) continue;
+      const content = fs.readFileSync(path.join(sectionDir, f), 'utf8');
+      const m = content.match(/\*\*Source:\*\*\s+(\S+)/);
+      if (m) index.add(normalizeUrl(m[1]));
+    }
   }
-  return false;
+  return index;
+}
+
+// Populated once in crawl() before use
+let completedIndex = null;
+
+function isCompleted(url) {
+  return completedIndex ? completedIndex.has(normalizeUrl(url)) : false;
 }
 
 function markProgress(url, status, title = '') {
@@ -283,12 +289,25 @@ async function extractPage(page, url) {
 async function crawl() {
   if (!fs.existsSync(OUTPUT_DIR)) fs.mkdirSync(OUTPUT_DIR, { recursive: true });
 
-  const alreadyDone = fs.readdirSync(OUTPUT_DIR).filter(f => f.endsWith('.md')).length;
+  // Build index of already-completed source URLs (O(1) lookups going forward)
+  process.stdout.write('Building completed-pages index... ');
+  completedIndex = buildCompletedIndex();
+  console.log(`${completedIndex.size} pages already done.`);
+
+  // Pre-populate usedSlugs from existing files so new pages don't collide
+  for (const [guid, section] of Object.entries(GUID_TO_SECTION)) {
+    const sectionDir = path.join(OUTPUT_DIR, section);
+    if (!fs.existsSync(sectionDir)) continue;
+    if (!usedSlugs[section]) usedSlugs[section] = new Set();
+    for (const f of fs.readdirSync(sectionDir)) {
+      if (f.endsWith('.md')) usedSlugs[section].add(f.slice(0, -3));
+    }
+  }
+
   const { queue, visited } = loadQueue();
 
   if (queue.length === 0) {
-    console.log(`Nothing to do — all ${alreadyDone} pages already crawled.`);
-    // Clean up saved queue so next run starts fresh from entry points
+    console.log(`Nothing to do — all pages already crawled.`);
     if (fs.existsSync(QUEUE_FILE)) fs.unlinkSync(QUEUE_FILE);
     return;
   }
@@ -300,6 +319,7 @@ async function crawl() {
 
   let completed = 0;
   let failed = 0;
+  const alreadyDone = completedIndex.size;
 
   console.log(`Starting. ${alreadyDone} already done, ${queue.length} pending.`);
   console.log(`Allowed guides: ${ALLOWED_GUIDE_GUIDS.size} GUIDs across 6 sections.\n`);
@@ -322,6 +342,7 @@ async function crawl() {
 
         const filepath = pageFilepath(norm, title);
         fs.writeFileSync(filepath, htmlToMarkdown(title, bodyText, norm), 'utf8');
+        completedIndex.add(norm);  // keep in-memory index current
 
         markProgress(norm, 'completed', title);
         completed++;

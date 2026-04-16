@@ -1,0 +1,15 @@
+# SAP Help Portal | SAP Online Help
+
+**Source:** https://help.sap.com/docs/SAP_CPQ/884885f05e6b4c8082254d4d9d63f19b/ce4fb3c35c994002b8ad2f17ba959dc0.html#results-1
+**Crawled:** 2026-04-16
+
+## Content
+
+Loading Document…
+Loading Table of Contents…
+Loading Topic…
+Yes
+No
+This site uses cookies and related technologies, as described in our Cookie Statement, for purposes that may include site operation, analytics, enhanced user experience, or advertising. You may choose to consent to our use of these technologies, or manage your own preferences.
+Understood Manage Settings
+Privacy Statement|Cookie Statement

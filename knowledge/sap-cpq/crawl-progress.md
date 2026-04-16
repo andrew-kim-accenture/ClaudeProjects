@@ -230,18 +230,25 @@ Base URL: `https://help.sap.com/doc/6cbd2ad268f4444abbf41a52911c15e5/2603/en-US/
 
 ---
 
-## Job 4: SAP Help Portal Guides (JS-rendered — needs Playwright)
+## Job 4: SAP Help Portal Guides (v2603, English — Playwright)
 
-**To run:** `cd knowledge/sap-cpq/tools && npm install && npm run crawl:portal`
-Script: `tools/crawl-portal.js` — auto-discovers nav links, resumes on re-run.
+**To run:** `cd knowledge/sap-cpq/tools && npm install && npx playwright install chromium && node crawl-portal.js`
+Script: `tools/crawl-portal.js` — targeted crawl of 11 guide sections, resumable.
 
-| Status | Item | Source URL | Target File |
-|--------|------|-----------|-------------|
-| `pending` | Portal home | `https://help.sap.com/docs/SAP_CPQ` | `portal/` (auto-named by crawler) |
-| `pending` | API Guide | `https://help.sap.com/docs/SAP_CPQ/08a7929ad06d4680b4f18cb57bc1a1d3/7be8a894a6dd45f7806f11c86f5b7c11.html` | `portal/` (auto-named by crawler) |
+| Status | Section | Guide GUID | Target Dir | Pages |
+|--------|---------|-----------|------------|-------|
+| `completed` | What's New | `abe5bf645c9542a5bd4cbfdcc1a4876c` | `portal/whats-new/` | 88 |
+| `completed` | Admin (Quote 1.0) | `884885f05e6b4c8082254d4d9d63f19b` | `portal/admin-quote-1/` | 524 |
+| `completed` | Admin (Quote 2.0) | `bf1562733d5247f78f8f0a9c61e5382a` | `portal/admin-quote-2/` | 549 |
+| `completed` | Migration Guide | `6d41da9c405e44349a9f99eb69d22d2b` | `portal/migration-guide/` | 33 |
+| `completed` | Integration | `f80fbcd4f1c74232839c30ce26886f07` | `portal/integration/` | 313 |
+| `completed` | User Guide | `551616e85ad64739835aa69241222f53` | `portal/user-guide/` | 62 |
+| `completed` | API Documentation | `08a7929ad06d4680b4f18cb57bc1a1d3` | `portal/api-docs/` | 227 |
+| `completed` | Scripting Events | `7fc27540a0f14bd1a10b639117a9d4d7` | `portal/scripting-events/` | 90 |
+| `completed` | Troubleshooting | `665a9ee212394653a84a393035090802` | `portal/troubleshooting/` | 20 |
+| `completed` | Known Issues | `f21989f09f494ce1a537942ae2523dc6` | `portal/known-issues/` | 8 |
+| `completed` | Getting Started | `8d3af393de3a485dad57d6d10768cdd1` | `portal/getting-started/` | 24 |
 
-| `failed: page.waitForTimeout: Target page, context or browser has bee` | https://help.sap.com/docs/SAP_CPQ/884885f05e6b4c8082254d4d9d63f19b/a3a3eefa8a944667aae1b13e620443e2.html#related-information | https://help.sap.com/docs/SAP_CPQ/884885f05e6b4c8082254d4d9d63f19b/a3a3eefa8a944667aae1b13e620443e2.html#related-information | portal/884885f05e6b4c8082254d4d9d63f19b-a3a3eefa8a944667aae1b13e620443e2-html.md |
-| `failed: page.waitForTimeout: Target page, context or browser has bee` | https://help.sap.com/docs/SAP_CPQ/884885f05e6b4c8082254d4d9d63f19b/35e2aebd3cbe47f0a103a813ec6796ae.html#data-sent-to-the-destination-environment | https://help.sap.com/docs/SAP_CPQ/884885f05e6b4c8082254d4d9d63f19b/35e2aebd3cbe47f0a103a813ec6796ae.html#data-sent-to-the-destination-environment | portal/884885f05e6b4c8082254d4d9d63f19b-35e2aebd3cbe47f0a103a813ec6796ae-html.md |
 ---
 
 ## Progress Summary
@@ -249,7 +256,7 @@ Script: `tools/crawl-portal.js` — auto-discovers nav links, resumes on re-run.
 | Job | Total | Completed | Failed | Pending |
 |-----|-------|-----------|--------|---------|
 | Job 1: Namespace overviews | 9 | 9 | 0 | 0 |
-| Job 2: Interface detail pages | 162 | 162 | 0 | 0 |
+| Job 2: Interface detail pages | 179 | 179 | 0 | 0 |
 | Job 3: REST API spec | 2 | 2 | 0 | 0 |
-| Job 4: Portal guides (Playwright) | 2+ | 0 | 0 | 2+ |
-| **Total** | **174** | **0** | **0** | **174** |
+| Job 4: Portal guides (Playwright) | 1,938 | 1,938 | 0 | 0 |
+| **Total** | **2,128** | **2,128** | **0** | **0** |
