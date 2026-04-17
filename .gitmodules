@@ -1,0 +1,3 @@
+[submodule "knowledge/sap-cpq"]
+	path = knowledge/sap-cpq
+	url = https://github.com/andrew-kim-accenture/sap-cpq-kb.git
