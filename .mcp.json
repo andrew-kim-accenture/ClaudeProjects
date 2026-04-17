@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "sap-cpq-kb": {
+      "command": "node",
+      "args": ["knowledge/sap-cpq/server/dist/index.cjs"],
+      "env": {
+        "KB_PATH": "knowledge/sap-cpq"
+      }
+    }
+  }
+}
