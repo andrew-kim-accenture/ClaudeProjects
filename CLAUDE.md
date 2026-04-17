@@ -2,11 +2,26 @@
 
 This is the root folder for all Claude Code-assisted projects.
 
-## Shared Knowledge Base
+## Projects Convention
 
-A curated knowledge base lives at `knowledge/sap-cpq/`. Any agent working on SAP CPQ projects
-should read `knowledge/sap-cpq/CLAUDE.md` first, then use `knowledge/sap-cpq/toc.md` to navigate.
-Check `knowledge/sap-cpq/crawl-progress.md` to see what has been captured and what still needs crawling.
+All projects live under `projects/`. This includes code projects, knowledge bases,
+and frameworks — not just runnable applications. `projects/` is the single home for
+everything built or curated in this workspace.
+
+## SAP CPQ Projects (Sister Repos)
+
+Two companion projects support all SAP CPQ engagement work:
+
+| Project | Location | Purpose |
+|---------|----------|---------|
+| `sap-cpq-kb` | `projects/sap-cpq-kb/` | *What the platform is* — scripting API, REST API, portal docs |
+| `cpq-developer-framework` | `projects/cpq-developer-framework/` | *How to build on the platform* — standards, tooling, template, stacks |
+
+Any agent working on SAP CPQ should:
+1. Read `projects/sap-cpq-kb/CLAUDE.md` first.
+2. Use `projects/sap-cpq-kb/toc.md` to navigate the KB.
+3. Check `projects/cpq-developer-framework/README.md` for framework conventions.
+4. Check `projects/sap-cpq-kb/crawl-progress.md` to see what KB content has been captured.
 
 ## General Guidelines
 
