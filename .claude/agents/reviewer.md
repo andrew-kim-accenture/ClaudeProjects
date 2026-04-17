@@ -1,3 +1,7 @@
+---
+model: sonnet
+---
+
 # Agent: Reviewer
 
 ## Identity

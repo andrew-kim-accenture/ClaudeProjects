@@ -14,5 +14,9 @@
       "Bash(git commit:*)",
       "Bash(bash *)"
     ]
-  }
+  },
+  "enabledMcpjsonServers": [
+    "sap-cpq-kb"
+  ],
+  "enableAllProjectMcpServers": true
 }

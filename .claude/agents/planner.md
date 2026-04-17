@@ -1,5 +1,6 @@
 ---
 agent: planner
+model: opus
 stage: PLANNING
 runs: after ideator approves brief, before validator
 ---

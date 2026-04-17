@@ -1,3 +1,7 @@
+---
+model: opus
+---
+
 # Agent: Supervisor
 
 ## Identity

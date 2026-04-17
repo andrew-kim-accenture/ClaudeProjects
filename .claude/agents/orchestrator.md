@@ -1,3 +1,7 @@
+---
+model: opus
+---
+
 # Orchestrator Agent
 
 ## Identity

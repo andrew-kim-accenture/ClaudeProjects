@@ -1,5 +1,6 @@
 ---
 agent: validator
+model: opus
 stage: PLANNING
 runs: after planner (full stages.md), and after each planner ambiguity revision
 ---

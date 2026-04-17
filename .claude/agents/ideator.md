@@ -1,5 +1,6 @@
 ---
 agent: ideator
+model: sonnet
 stage: IDEATION
 runs: after researcher, before planner
 ---

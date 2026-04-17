@@ -1,3 +1,7 @@
+---
+model: sonnet
+---
+
 # Implementer Agent
 
 ## Identity
