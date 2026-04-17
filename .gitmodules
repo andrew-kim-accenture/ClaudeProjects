@@ -1,3 +1,6 @@
 [submodule "knowledge/sap-cpq"]
 	path = knowledge/sap-cpq
 	url = https://github.com/andrew-kim-accenture/sap-cpq-kb.git
+[submodule "projects/cpq-developer-framework"]
+	path = projects/cpq-developer-framework
+	url = https://github.com/andrew-kim-accenture/sap-cpq-developer-framework
