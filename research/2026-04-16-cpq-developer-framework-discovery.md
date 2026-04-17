@@ -667,6 +667,47 @@ enabling post-incident audit regardless of which incident tool the client uses.
 
 ---
 
+### Discovery 19 — Ideas from EricHoftiezerACN/sap-cpq (To Evaluate, Not Yet Adopted)
+
+**Source:** https://github.com/EricHoftiezerACN/sap-cpq — a tested, production-used Accenture CPQ repo.
+These are **inspiration items** to consider during implementation, not yet incorporated into the framework.
+
+**1. `/customapi/ExecuteScript` endpoint**
+`POST /customapi/ExecuteScript?scriptname={name}&quoteCompositeNumber={quoteNumber}&Param={urlEncodedJson}`
+Executes a named CPQ script directly from outside the platform — no ScriptWorkbench, no event trigger needed.
+Script receives inputs via `Param`. Response is the `ApiResponseFactory.JsonResponse(...)` return value.
+**Impact:** The regression test suite can call specific scripts with controlled inputs. More precise
+than triggering events via REST mutations. Complements Discovery 3 (REST → event trigger).
+
+**2. `conftest.py` + `importlib.reload` testing pattern**
+Mocks CPQ platform globals (`Quote`, `SqlHelper`, `Param`, etc.) via Python `builtins`, then calls
+`importlib.reload(script_module)` to re-execute a script's top-level code with different inputs.
+Enables a pure-Python unit test layer that runs locally and in CI — no CPQ instance needed.
+Their `conftest.py` covers: `Trace`, `Log`, `JsonHelper`, `ApiResponseFactory`, `SqlHelper`,
+`QuoteHelper`, `Param`. Would need `Quote`, `ProductHelper`, `ScriptExecutor`, `RestClient`, `User`
+added for our use cases.
+
+**3. `.pylintrc` `additional-builtins` — most complete CPQ globals list found**
+Their `.pylintrc` has 40+ globals preventing E0602 false-positives, including several not
+documented in the KB: `context`, `Session`, `clr`, `JWT`, `AttributeAccess`, `Item`, `StreamReader`,
+`AuthorizedRestClient`, `mTLSRestClient`, `FederationUtility`, `SapPassport`, `TagParserProduct`,
+`TagParserQuote`, `UserPersonalizationHelper`. Also: `ignored-modules=System,Scripting` for .NET namespaces.
+
+**4. Dual-mode OAuth2 auth with token file caching**
+Auth client detects username format: UUID → OAuth2 client credentials; email → basic auth.
+Bearer token cached to file with expiry tracking — avoids re-auth on every CLI call.
+Pattern for `push.py`/`pull.py` service account authentication in CI.
+
+**5. OData `$filter=name eq '{name}'` for script lookup by name**
+Their TypeScript `GlobalScriptAPI.getByName()` uses `GET /api/script/v1/GlobalScripts?$filter=name eq '{name}'`.
+The pull tool needs this to find a script's numeric ID before updating it.
+
+**6. Dispatcher pattern** (`Param.actionName` routing)
+A single global script checks `Param.actionName` to dispatch to different operations —
+a lightweight "admin API" inside CPQ. Useful pattern for utility scripts.
+
+---
+
 ## Section 3: Open Questions Index
 
 Ordered by how much they block other decisions:
@@ -1171,6 +1212,9 @@ rarely restructure core tables).
 - [x] **NCD authoring** — COMPLETE. Draft at `research/NCD-draft.md` (1,495 lines). Covers: domain taxonomy, all naming patterns, sidecar schema, folder structure, branch/commit conventions, IronPython coding standards (9 rules with before/after examples), module design principles, test harness conventions, quick-reference appendix. TBD items indexed in Appendix B pending live verification.
 - [x] **Artifact scope decision** — RESOLVED (Discovery 16): custom fields, approval rules, workflow notifications, document templates are Tier 1 (full CRUD API). Custom tables, pricebooks, products, quote types are Tier 2 (config-only, no usable REST API).
 - [ ] **REST → event trigger map** — live test in dev: does POST line item fire OnItemAdded, does PATCH custom field fire OnCustomFieldChanged, does REST response include post-script state or requires a GET. Quote API base: `/api/Quotes/v1/`.
+- [ ] **EricHoftiezerACN/sap-cpq review** — evaluate Discovery 19 items for adoption: `conftest.py` pattern, `/customapi/ExecuteScript` integration into regression suite, `.pylintrc` additional-builtins list, dual-mode OAuth2 auth for push/pull tools. Review before implementing — do not mix into framework without deliberate evaluation.
+- [ ] **NCD migration** — move `research/NCD-draft.md` → `standards/NCD.md` in the framework project (ready to migrate, just paused).
+- [ ] **Sidecar schemas for Tier 1 non-script artifacts** — define `.cpq.yaml` schema for custom fields, approval rules, workflow notifications, document templates.
 - [ ] **Responsive template REST API verification** — check swagger.json for responsive template CRUD endpoint. If exists: confirm push/pull works, confirm staging slot API. If absent: Responsive Templates stay Tier 2 but still get the `sections/` split structure and `ko-context.json` sidecar for dev reference.
 - [ ] **KO context extractor (Playwright)** — build `tools/extract-ko-context.py`; verify `ko.toJSON()` serializability on CPQ context tree; define fallback walk if circular refs encountered. Run against dev instance, commit resulting `ko-context.json` as reference artifact.
 - [ ] **Event flow map generator** — build `tools/gen-event-map.py`; define `@reads`/`@writes` annotation format in NCD; generate first `docs/event-flow.json` + `docs/event-flow.md` from existing sidecar files once template repo is seeded.
