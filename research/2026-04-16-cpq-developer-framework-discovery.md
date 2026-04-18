@@ -1236,15 +1236,9 @@ rarely restructure core tables).
 
 **Stub correctness issues found via KB verification — fix before using on any engagement:**
 
-- [ ] **Rewrite `_quote_item.pyi`** — `IQuoteItem.md` exists in KB; stub was inferred incorrectly.
-  - Remove (don't exist on IQuoteItem): `ListPriceInMarket`, `NetPriceInMarket`, `ExtendedAmountInMarket`, `ExtendedListPrice`/InMarket, `DiscountAmount`, `EndUserNet`/InMarket, `EndUserExtendedAmount`/InMarket, `MrcListPrice`, `MrcNetPrice`, `MrcExtendedAmount`, `MrcCost`, `IsOptional`, `IsComplete`, `ProductSystemId`, `CustomFields`
-  - Add (missing from stub, confirmed KB): `BaseListPrice`, `BaseListPriceInMarket`, `BaseQuantity`, `CanBeMoved`, `CategoryId`, `CategoryName`, `CustomColumn1–6` + InMarket, `IsMainItem`, `IsLineItem`, `MarginAmount`, `MarginPercent`, `Multiplier`, `ParentItem: IMainItem`, `ParentRolledUpQuoteItem: IQuoteItem`, `ProductId: int`, `SelectedAttributes`
-  - Source: `projects/sap-cpq-kb/scripting/interfaces/IQuoteItem.md`
-
-- [ ] **Fix `IQuoteCustomField` in `_quote.pyi`** — Remove invented `IsSelected()`. Change `Content: Any` → `Content: str`. Add: `Visible: bool`, `Editable: bool`, `Label: str`, `Rank: int`, `Required: bool`, `StrongName: str`, `Type: str`, `AttributeValues`, `CalculationFormula: str`, `FreeFormCharacterLimit: int`, `Id: int`.
-  - Source: `projects/sap-cpq-kb/scripting/interfaces/IQuoteCustomField.md`
-
-- [ ] **Add missing globals to `builtins.pyi`** — KB-documented (need stub files): `RestClient` (IRestClient.md), `QuoteHelper` (IQuoteHelper.md), `ScriptExecutor` (IScriptExecutor.md), `WorkflowExecutor` (IWorkflowExecutor.md), `JsonHelper` (IJsonHelper.md). Not in KB but seen in real scripts — stub as `Any` with comment: `User`, `WebServiceHelper`, `XmlHelper`, `RequestContext`, `ApiResponseFactory`.
+- [x] **Rewrite `_quote_item.pyi`** — DONE 2026-04-17. Removed 16 invented properties; added 15 KB-confirmed properties. `IsComplete` moved to `IMainItem` where it belongs.
+- [x] **Fix `IQuoteCustomField` in `_quote.pyi`** — DONE 2026-04-17. Removed `IsSelected()`, fixed `Content: str`, added all 11 KB properties.
+- [x] **Add missing globals to `builtins.pyi`** — DONE 2026-04-17. Added: `RestClient`, `QuoteHelper`, `ScriptExecutor`, `WorkflowExecutor`, `JsonHelper` with full stub files. Undocumented globals (`User`, `WebServiceHelper`, `XmlHelper`, `RequestContext`, `ApiResponseFactory`) stubbed as `Any`.
 
 **Other discoveries from Toyota script review:**
 - Container rows: bracket notation `row["ColName"]` is correct (IContainerRow indexer). SqlHelper rows: dot notation `row.COLUMN_NAME`. Both are right in their context — document in FIELD-NOTES.

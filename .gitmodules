@@ -1,5 +1,5 @@
-[submodule "projects/cpq-developer-framework"]
-	path = projects/cpq-developer-framework
+[submodule "projects/sap-cpq-developer-framework"]
+	path = projects/sap-cpq-developer-framework
 	url = https://github.com/andrew-kim-accenture/sap-cpq-developer-framework
 [submodule "projects/sap-cpq-kb"]
 	path = projects/sap-cpq-kb
